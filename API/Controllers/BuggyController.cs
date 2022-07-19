@@ -13,8 +13,7 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet("notfound")]
-        
+        [HttpGet("notfound")]        
         public ActionResult GetNotFoundRequest(){
 
             var thing =_context.Products.Find(42);
@@ -26,13 +25,12 @@ namespace API.Controllers
         } 
 
 
-          [HttpGet("servererror")]
-        
+        [HttpGet("servererror")]        
         public ActionResult GetServerError(){
 
             var thing =_context.Products.Find(42);
             var thingToReturn = thing.ToString();
-
+            
             return Ok();
             
         } 
