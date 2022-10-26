@@ -3,6 +3,7 @@ using API.Helpers;
 using API.Middleware;
 using AutoMapper;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,8 @@ namespace API
         {
 
             services.AddAutoMapper(typeof(MappingProfiles));
+            services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
+            .AddCertificate();
             services.AddControllers();
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
             services.AddApplicationServices();
@@ -49,6 +52,8 @@ namespace API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseAuthentication();
 
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
